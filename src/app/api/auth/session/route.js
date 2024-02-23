@@ -9,7 +9,7 @@ import { firebaseConfig } from "@/config/firebase";
 runAdminApp();
 
 // Obtener una sesión
-export const GET = async (req) => {
+export const GET = async () => {
   try {
     const cookieSession = cookies().get(firebaseConfig.FIREBASE_COOKIE_NAME)?.value;
     await auth().verifySessionCookie(cookieSession, true);

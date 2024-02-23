@@ -7,7 +7,7 @@ export const middleware = async (req) => {
     const cookieSession = cookies().get(firebaseConfig.FIREBASE_COOKIE_NAME)?.value;
     const res = await fetch(`${req.url}api/auth/session`, {
       headers: {
-        Cookie: `session=${cookieSession}`,
+        Cookie: `${firebaseConfig.FIREBASE_COOKIE_NAME}=${cookieSession}`,
       },
     });
     const data = await res.json();
