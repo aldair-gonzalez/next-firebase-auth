@@ -11,9 +11,14 @@ runAdminApp();
 // Obtener una sesión
 export const GET = async () => {
   try {
-    const cookieSession = cookies().get(firebaseConfig.FIREBASE_COOKIE_NAME)?.value;
+    const cookieSession = cookies().get(
+      firebaseConfig.FIREBASE_COOKIE_NAME
+    )?.value;
     const sessionCookie = await auth().verifySessionCookie(cookieSession, true);
-    return NextResponse.json({ isLogged: true, rol: sessionCookie.rol }, { status: 200 });
+    return NextResponse.json(
+      { isLogged: true, rol: sessionCookie.rol },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
       { isLogged: false, error: error.message },
@@ -58,7 +63,9 @@ export const POST = async () => {
 // Eliminar una sesión
 export const DELETE = async () => {
   try {
-    const sessionCookie = cookies().get(firebaseConfig.FIREBASE_COOKIE_NAME)?.value;
+    const sessionCookie = cookies().get(
+      firebaseConfig.FIREBASE_COOKIE_NAME
+    )?.value;
     cookies().delete(firebaseConfig.FIREBASE_COOKIE_NAME);
     const decodedClaims = await auth().verifySessionCookie(sessionCookie);
     await auth().revokeRefreshTokens(decodedClaims.sub);
