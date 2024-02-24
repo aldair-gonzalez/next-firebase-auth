@@ -18,6 +18,7 @@ export const signIn = async (user) => {
     await fetch("api/auth/session", {
       method: "POST",
       headers: {
+        Accept: "application/json",
         "Content-Type": "application/json",
         Authorization: `Bearer ${idToken}`,
       },
@@ -38,10 +39,12 @@ export const signUp = async ({ user, sendEmail, rol }) => {
     await fetch("api/auth/sign-up", {
       method: "POST",
       headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
         "x-uid": userCreated.user.uid,
         "x-rol": rol,
-      }
-    })
+      },
+    });
 
     sendEmail && (await sendEmailVerification(userCreated.user));
   } catch (error) {
@@ -51,7 +54,13 @@ export const signUp = async ({ user, sendEmail, rol }) => {
 
 export const signOut = async () => {
   try {
-    await fetch("api/auth/session", { method: "DELETE" });
+    await fetch("api/auth/session", {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
   } catch (error) {
     throw error;
   }
