@@ -27,13 +27,21 @@ export const signIn = async (user) => {
   }
 };
 
-export const signUp = async ({ user, sendEmail }) => {
+export const signUp = async ({ user, sendEmail, rol }) => {
   try {
     const userCreated = await createUserWithEmailAndPassword(
       auth,
       user.email,
       user.password
     );
+
+    await fetch("api/auth/sign-up", {
+      method: "POST",
+      headers: {
+        "x-uid": userCreated.user.uid,
+        "x-rol": rol,
+      }
+    })
 
     sendEmail && (await sendEmailVerification(userCreated.user));
   } catch (error) {

@@ -12,8 +12,8 @@ runAdminApp();
 export const GET = async () => {
   try {
     const cookieSession = cookies().get(firebaseConfig.FIREBASE_COOKIE_NAME)?.value;
-    await auth().verifySessionCookie(cookieSession, true);
-    return NextResponse.json({ isLogged: true }, { status: 200 });
+    const sessionCookie = await auth().verifySessionCookie(cookieSession, true);
+    return NextResponse.json({ isLogged: true, rol: sessionCookie.rol }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { isLogged: false, error: error.message },

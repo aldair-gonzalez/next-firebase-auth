@@ -8,6 +8,8 @@ import { signUp } from "@/lib/firebase/actions";
 const SignUp = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const [rol, setRol] = useState(null);
+
   const [errorMessage, setErrorMessage] = useState(null);
   const [sendEmail, setSendEmail] = useState(false);
 
@@ -17,10 +19,11 @@ const SignUp = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      await signUp({ user: { email, password }, sendEmail: true });
+      await signUp({ user: { email, password }, sendEmail: true, rol });
       setSendEmail(true);
       setEmail(null);
       setPassword(null);
+      setRol(null);
       setErrorMessage(null);
       setLoading(false);
     } catch (error) {
@@ -76,6 +79,24 @@ const SignUp = () => {
             placeholder="email@example.com"
             onChange={(e) => setPassword(e.target.value)}
           />
+        </div>
+        <div className="grid grid-cols-1 gap-2">
+          <label className="text-sm opacity-50" htmlFor="rol">
+            Rol
+          </label>
+          <select
+            className="py-1 px-2 rounded-md bg-inherit border border-white border-opacity-30"
+            name="rol"
+            defaultValue=""
+            onChange={(e) => setRol(e.target.value)}
+          >
+            <option value="" disabled hidden className="text-sm opacity-50">
+              Selecciona un rol
+            </option>
+            <option value="admin">Administrador</option>
+            <option value="profesor">Profesor</option>
+            <option value="alumno">Alumno</option>
+          </select>
         </div>
         <button
           className={`bg-blue-500 py-2 rounded-md transition-all duration-100 ease-linear active:scale-95 ${
