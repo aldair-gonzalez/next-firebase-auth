@@ -4,15 +4,20 @@ import { firebaseConfig } from "./config/firebase";
 
 export const middleware = async (req) => {
   try {
-    const cookieSession = cookies().get(firebaseConfig.FIREBASE_COOKIE_NAME)?.value;
+    const cookieSession = cookies().get(
+      firebaseConfig.FIREBASE_COOKIE_NAME
+    )?.value;
     const res = await fetch(`${req.url}api/auth/session`, {
       headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
         Cookie: `${firebaseConfig.FIREBASE_COOKIE_NAME}=${cookieSession}`,
       },
     });
     const data = await res.json();
     if (!data.isLogged)
       return NextResponse.redirect(new URL("/sign-in", req.url));
+
     return NextResponse.next();
   } catch (error) {
     return NextResponse.redirect(new URL("/sign-in", req.url));
@@ -20,5 +25,5 @@ export const middleware = async (req) => {
 };
 
 export const config = {
-  matcher: ["/:path"],
+  matcher: ["/"],
 };
