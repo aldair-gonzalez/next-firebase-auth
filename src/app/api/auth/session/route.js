@@ -17,12 +17,13 @@ export const GET = async () => {
     const sessionCookie = await auth().verifySessionCookie(cookieSession, true);
     return NextResponse.json(
       { isLogged: true, rol: sessionCookie.rol },
-      { status: 200 }
+      { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
+    cookies().delete(firebaseConfig.FIREBASE_COOKIE_NAME);
     return NextResponse.json(
       { isLogged: false, error: error.message },
-      { status: 400 }
+      { status: 400, headers: { "Content-Type": "application/json" } }
     );
   }
 };
@@ -36,7 +37,7 @@ export const POST = async () => {
     if (!(new Date().getTime() / 1000 - decodedIdToken.auth_time < 5 * 60))
       return NextResponse.json(
         { isLogged: false, error: "Token expired" },
-        { status: 401 }
+        { status: 401, headers: { "Content-Type": "application/json" } }
       );
 
     const expiresIn = 60 * 60 * 24 * 5 * 1000;
@@ -51,11 +52,14 @@ export const POST = async () => {
       sameSite: "strict",
     });
 
-    return NextResponse.json({ isLogged: true }, { status: 200 });
+    return NextResponse.json(
+      { isLogged: true },
+      { status: 200, headers: { "Content-Type": "application/json" } }
+    );
   } catch (error) {
     return NextResponse.json(
       { isLogged: false, error: error.message },
-      { status: 400 }
+      { status: 400, headers: { "Content-Type": "application/json" } }
     );
   }
 };
@@ -69,11 +73,14 @@ export const DELETE = async () => {
     cookies().delete(firebaseConfig.FIREBASE_COOKIE_NAME);
     const decodedClaims = await auth().verifySessionCookie(sessionCookie);
     await auth().revokeRefreshTokens(decodedClaims.sub);
-    return NextResponse.json({ isLogged: false }, { status: 200 });
+    return NextResponse.json(
+      { isLogged: false },
+      { status: 200, headers: { "Content-Type": "application/json" } }
+    );
   } catch (error) {
     return NextResponse.json(
       { isLogged: false, error: error.message },
-      { status: 400 }
+      { status: 400, headers: { "Content-Type": "application/json" } }
     );
   }
 };
