@@ -14,7 +14,6 @@ const SignIn = () => {
   const [errorMessage, setErrorMessage] = useState(null);
 
   const [loading, setLoading] = useState(false);
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,3 +89,7 @@ const SignIn = () => {
   );
 };
 export default SignIn;
+
+export const metadata = {
+  title: "Iniciar sesión",
+};
