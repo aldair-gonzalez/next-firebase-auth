@@ -1,26 +1,20 @@
+import Link from "next/link";
+
 export default function Unauthorized() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="flex flex-col items-center justify-center min-h-screen py-2 gap-10">
+      <h1 className="font-black text-9xl">403</h1>
 
-      <main className="flex flex-col items-center justify-center flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          403
-        </h1>
-
-        <p className="mt-3 text-2xl">
-          Lo siento, no estás autorizado para ver esta página.
-        </p>
-
-        <p className="mt-3">
-          <a href="/" className="text-2xl underline">
-            Volver a la página principal
-          </a>
-        </p>
-      </main>
+      <div className="grid grid-cols-1 gap-2 place-items-center">
+        <p>No estas autorizado</p>
+        <Link href="/" className="underline">
+          Volver al inicio
+        </Link>
+      </div>
     </div>
-  )
+  );
 }
 
 export const metadata = {
-  title: 'No autorizado',
-}
+  title: "No autorizado",
+};
